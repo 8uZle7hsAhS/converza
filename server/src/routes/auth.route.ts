@@ -1,9 +1,12 @@
 import { Router } from "express";
-import { signup, logout, login } from "../controller/auth.controller";
+import { signup, logout, login, checkAuth } from "../controller/auth.controller";
+import { protectRoute } from "../middlewares/auth.middleware";
 
 const authRoute = Router(); 
 
 authRoute.post("/signup", signup); 
-authRoute.post("/get", login)
+authRoute.post("/login", login)
 authRoute.post("/logout", logout)
+authRoute.get("/check", protectRoute, checkAuth)
+
 export default authRoute;
