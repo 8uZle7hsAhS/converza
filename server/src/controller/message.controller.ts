@@ -2,23 +2,7 @@ import User from "../models/user.model";
 import Message from "../models/message.model";
 import cloudinary from "../lib/cloudinary";
 
-export const getUsersForSidebar = async (req: any, res: any) => {
-  try {
-    const currentUserId = req.user._id;
-    // ne = not equal to        // except the pass
-    const filteredUsers = await User.find({
-      _id: { $ne: currentUserId },
-    }).select("-password");
 
-    res.status(200).json(filteredUsers);
-  } catch (error) {
-    console.log(
-      "Error in getting the users for side bar - mess controller error: ",
-      error
-    );
-    res.status(500).json({ message: "Internal Server Error" });
-  }
-};
 
 export const getMessages = async (req: any, res: any) => {
   try {

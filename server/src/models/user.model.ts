@@ -20,6 +20,12 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    contacts: [
+      {
+        type: mongoose.Schema.ObjectId, 
+        ref:"User"
+      }
+    ]
   },
   { timestamps: true }
 );
