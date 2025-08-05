@@ -1,11 +1,22 @@
-
+import { Route, Routes } from "react-router-dom";
+import LoginPage from "./components/LoginPage";
+import HomePage from "./components/HomePage";
+import SignupPage from "./components/SignupPage";
+import SettingsPage from "./components/SettingsPage";
+import ProfilePage from "./components/ProfilePage";
 
 const App = () => {
   return (
-    <div className="bg-green-300 min-w-full min-h-screen">
-      
+    <div className="p-4">
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+      </Routes>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
