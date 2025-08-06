@@ -1,9 +1,10 @@
-import { Route, Routes } from "react-router-dom";
-import LoginPage from "./components/LoginPage";
-import HomePage from "./components/HomePage";
-import SignupPage from "./components/SignupPage";
-import SettingsPage from "./components/SettingsPage";
-import ProfilePage from "./components/ProfilePage";
+import { Route, Routes, useNavigate } from 'react-router-dom';
+import LoginPage from './components/LoginPage';
+import HomePage from './components/HomePage';
+import SignupPage from './components/SignupPage';
+import SettingsPage from './components/SettingsPage';
+import ProfilePage from './components/ProfilePage';
+import OtpPage from './components/OtpPage';
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/otp" element={<OtpPage />} />
       </Routes>
     </div>
   );

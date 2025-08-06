@@ -1,7 +1,10 @@
 import React, { useState, type JSX } from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as z from 'zod';
 
 const SignupPage = () => {
+  const navigate = useNavigate();
+
   const [signupInfo, setSignupInfo] = useState<{
     fullName: string;
     email: string;
@@ -11,11 +14,6 @@ const SignupPage = () => {
 
   const [formsError, setFormsError] = useState<{ [key: string]: string }>({});
 
-  const isFormEmpty =
-    !signupInfo.fullName ||
-    !signupInfo.email ||
-    !signupInfo.password ||
-    !signupInfo.confirmPassword;
   const messageForm = (): JSX.Element => {
     const formSchema = z
       .object({
@@ -65,8 +63,10 @@ const SignupPage = () => {
 
       if (result.success) {
         // send to the backend
+        console.log(typeof data, data);
         handleSignup(data);
         setFormsError({});
+        navigate('/otp', { state: data });
       } else {
         const formErrors = result.error.format();
         setFormsError({
@@ -81,7 +81,7 @@ const SignupPage = () => {
     };
 
     return (
-      <div className="flex flex-col mt-32">
+      <div className="flex flex-col mt-10">
         <h1>Sign Up:</h1>
 
         {/* INFORMATIONS:  */}
@@ -141,7 +141,7 @@ const SignupPage = () => {
           </div>
 
           <button
-            disabled={isFormEmpty}
+            // disabled={isFormEmpty}
             type="submit"
             className=" h-10 md:h-13 lg:h-10 bg-zinc-900 border border-cyan-500 text-cyan-500 rounded-sm active:scale-95 active:bg-cyan-500 active:text-zinc-900 "
           >
@@ -154,7 +154,7 @@ const SignupPage = () => {
 
   return (
     <div>
-      <h1>SIGNUP PAGE</h1>
+      <h1>SIGN UP PAGE</h1>
       {messageForm()}
     </div>
   );
