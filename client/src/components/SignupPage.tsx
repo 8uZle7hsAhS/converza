@@ -1,5 +1,6 @@
 import React, { useState, type JSX } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 import * as z from 'zod';
 
 const SignupPage = () => {
@@ -10,9 +11,16 @@ const SignupPage = () => {
     email: string;
     password: string;
     confirmPassword: string;
-  }>({ fullName: '', email: '', password: '', confirmPassword: '' });
+  }>({
+    fullName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
 
-  const [formsError, setFormsError] = useState<{ [key: string]: string }>({});
+  const [formsError, setFormsError] = useState<{
+    [key: string]: string;
+  }>({});
 
   const messageForm = (): JSX.Element => {
     const formSchema = z
@@ -21,7 +29,7 @@ const SignupPage = () => {
         email: z.string().email('Invalid Email'),
         password: z
           .string()
-          .min(8, 'Please enter your password')
+          .min(8, 'Password must contains more than 8 characters')
           .regex(
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/,
             'Password must include uppercase, lowercase, number, and special character',
@@ -30,7 +38,7 @@ const SignupPage = () => {
       })
       .refine((data) => data.password == data.confirmPassword, {
         path: ['confirmPassword'],
-        message: 'Password do not match',
+        message: 'Password do not match, try again',
       });
 
     const resetForm = () => {
@@ -44,7 +52,9 @@ const SignupPage = () => {
 
     const handleSignup = (data: any) => {
       const { fullName, email, password } = data;
-      console.log(`Full Name: ${fullName} \nEmail: ${email} \nPassword: ${password}`);
+      console.log(
+        `Full Name: ${fullName} \nEmail: ${email} \nPassword: ${password}`,
+      );
       resetForm();
     };
 
@@ -66,7 +76,16 @@ const SignupPage = () => {
         console.log(typeof data, data);
         handleSignup(data);
         setFormsError({});
-        navigate('/otp', { state: data });
+
+        toast.success('Successfully', {
+          className: 'bg-red-400',
+          description: 'Your account have been created',
+          duration: 2000,
+        });
+
+        navigate('/otp', {
+          state: data,
+        });
       } else {
         const formErrors = result.error.format();
         setFormsError({
@@ -92,35 +111,56 @@ const SignupPage = () => {
             <input
               name="fullName"
               value={signupInfo.fullName}
-              onChange={(e) => setSignupInfo((prev) => ({ ...prev, fullName: e.target.value }))}
+              onChange={(e) =>
+                setSignupInfo((prev) => ({
+                  ...prev,
+                  fullName: e.target.value,
+                }))
+              }
               placeholder="Juan Dela Cruz"
               className="w-50 border border-black"
               type="text"
             />
-            {formsError.fullName && <p className="text-red-500 text-sm ">{formsError?.fullName}</p>}
+            {formsError.fullName && (
+              <p className="text-red-500 text-sm ">{formsError?.fullName}</p>
+            )}
 
             <h2>Email: </h2>
             <input
               name="email"
               value={signupInfo?.email}
-              onChange={(e) => setSignupInfo((prev) => ({ ...prev, email: e.target.value }))}
+              onChange={(e) =>
+                setSignupInfo((prev) => ({
+                  ...prev,
+                  email: e.target.value,
+                }))
+              }
               placeholder="Juan Dela Cruz"
               className="w-50 border border-black"
               type="email"
             />
 
-            {formsError.email && <p className="text-red-500 text-sm ">{formsError?.email}</p>}
+            {formsError.email && (
+              <p className="text-red-500 text-sm ">{formsError?.email}</p>
+            )}
 
             <h2>Password: </h2>
             <input
               name="password"
               value={signupInfo?.password}
-              onChange={(e) => setSignupInfo((prev) => ({ ...prev, password: e.target.value }))}
+              onChange={(e) =>
+                setSignupInfo((prev) => ({
+                  ...prev,
+                  password: e.target.value,
+                }))
+              }
               placeholder="Juan Dela Cruz"
               className="w-50 border border-black"
               type="password"
             />
-            {formsError.password && <p className="text-red-500 text-sm ">{formsError?.password}</p>}
+            {formsError.password && (
+              <p className="text-red-500 text-sm ">{formsError?.password}</p>
+            )}
 
             <h2>Confirm Password</h2>
             <input
@@ -128,7 +168,10 @@ const SignupPage = () => {
               name="confirmPassword"
               value={signupInfo?.confirmPassword}
               onChange={(e) =>
-                setSignupInfo((prev) => ({ ...prev, confirmPassword: e.target.value }))
+                setSignupInfo((prev) => ({
+                  ...prev,
+                  confirmPassword: e.target.value,
+                }))
               }
               placeholder="Juan Dela Cruz"
               className="w-50 border border-black"
@@ -136,7 +179,9 @@ const SignupPage = () => {
             />
 
             {formsError.confirmPassword && (
-              <p className="text-red-500 text-sm ">{formsError?.confirmPassword}</p>
+              <p className="text-red-500 text-sm ">
+                {formsError?.confirmPassword}
+              </p>
             )}
           </div>
 
