@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from './ui/button';
 import { toast } from 'sonner';
+import { useAuthStore } from '../auth/useAuthStore';
 
 const OtpPage = () => {
   const navigate = useNavigate();
@@ -13,6 +14,8 @@ const OtpPage = () => {
   const [allowResendButton, setAllowResendButton] = useState<boolean>(false);
   const [otpValue, setOtpValue] = useState<string>('');
 
+  const { signup } = useAuthStore();
+
   // generates otp at once.
   useEffect(() => {
     if (!data) {
@@ -23,7 +26,7 @@ const OtpPage = () => {
     generateAndSetOtp();
   }, []);
 
-  // coundown
+  // countdown
   useEffect(() => {
     if (countDown <= 0) {
       setAllowResendButton((prev) => !prev);
@@ -103,7 +106,8 @@ const OtpPage = () => {
     }
 
     console.log('OTP IS CORRECT');
-    navigate('/login');
+    console.log(data);
+    signup({ data }, navigate);
   };
 
   return (
