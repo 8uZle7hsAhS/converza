@@ -50,14 +50,6 @@ const SignupPage = () => {
       });
     };
 
-    const handleSignup = (data: any) => {
-      const { fullName, email, password } = data;
-      console.log(
-        `Full Name: ${fullName} \nEmail: ${email} \nPassword: ${password}`,
-      );
-      resetForm();
-    };
-
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
@@ -72,9 +64,7 @@ const SignupPage = () => {
       const result = formSchema.safeParse(data);
 
       if (result.success) {
-        // send to the backend
-        console.log(typeof data, data);
-        handleSignup(data);
+        resetForm();
         setFormsError({});
 
         toast.success('Successfully', {
