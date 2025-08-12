@@ -2,6 +2,7 @@ import { useResolvedPath } from 'react-router-dom';
 import { generateJwtToken } from '../lib/utils';
 import User from '../models/user.model';
 import bcrypt from 'bcryptjs';
+import { error } from 'console';
 
 export const signup = async (req: any, res: any) => {
   const { email, fullName, password } = req.body.data;
@@ -50,7 +51,9 @@ export const signup = async (req: any, res: any) => {
 };
 
 export const login = async (req: any, res: any) => {
-  const { email, password } = req.body;
+  const { email, password } = req.body.data;
+
+  console.log('FROM BACKEND', req.body.data);
 
   try {
     if (!email || !password)
@@ -62,7 +65,9 @@ export const login = async (req: any, res: any) => {
     const isPassMatch = await bcrypt.compare(password, user.password);
 
     if (!isPassMatch)
-      return res.status(401).json({ message: 'Incorrect password' });
+      return res
+        .status(401)
+        .json({ message: 'Incorrect password', err: password });
 
     generateJwtToken(user._id, res);
 
