@@ -73,7 +73,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="">
+    <div className="bg-green-500">
       <h1>LOGIN</h1>
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col">
