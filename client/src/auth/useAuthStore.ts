@@ -11,7 +11,7 @@ interface AuthState {
   signup: (data: any, navigate: any) => Promise<void>;
   login: () => Promise<void>;
 }
-
+// helloworld hahahh 
 export const useAuthStore = create<AuthState>((set) => ({
   authUser: null,
   isSigningUp: false,
